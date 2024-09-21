@@ -289,6 +289,31 @@ static int8_t CUSTOM_HID_OutEvent_FS(uint8_t event_idx, uint8_t state)
   UNUSED(event_idx);
   UNUSED(state);
 
+  // Switching the LEDs D2 and D3
+  switch (event_idx)
+  {
+//  case 1:                      /* LED1 */
+//    (state == 1) ? BSP_LED_On(LED1) : BSP_LED_Off(LED1);
+//    break;
+
+  case 1:                      /* LED2 */
+    (state == 1) ? HAL_GPIO_WritePin(LED_D2_GPIO_Port, LED_D2_Pin, GPIO_PIN_RESET) : HAL_GPIO_WritePin(LED_D2_GPIO_Port, LED_D2_Pin, GPIO_PIN_SET);
+    break;
+  case 2:                      /* LED3 */
+    (state == 1) ? HAL_GPIO_WritePin(LED_D3_GPIO_Port, LED_D3_Pin, GPIO_PIN_RESET) : HAL_GPIO_WritePin(LED_D3_GPIO_Port, LED_D3_Pin, GPIO_PIN_SET);
+    break;
+//  case 4:                      /* LED4 */
+//    (state == 1) ? BSP_LED_On(LED4) : BSP_LED_Off(LED4);
+//    break;
+
+  default:
+    //BSP_LED_Off(LED1);
+	HAL_GPIO_WritePin(LED_D2_GPIO_Port, LED_D2_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(LED_D3_GPIO_Port, LED_D3_Pin, GPIO_PIN_SET);
+    //BSP_LED_Off(LED4);
+    break;
+  }
+
   /* Start next USB packet transfer once data processing is completed */
   if (USBD_CUSTOM_HID_ReceivePacket(&hUsbDeviceFS) != (uint8_t)USBD_OK)
   {
